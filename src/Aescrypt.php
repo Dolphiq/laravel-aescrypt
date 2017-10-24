@@ -103,9 +103,15 @@ trait Aescrypt
         return $this->aes_decrypt(str_replace($this->getAesryptPrefix(), '', $value), $this->getAescryptKey());
     }
 
-    // generate a search string
+    /**
+     * Return an encrypted version of the value.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
     public function encryptValue($value) {
-        return $this->aes_encrypt($value, $this->getAescryptKey());
+        return $this->getAesryptPrefix() . $this->aes_encrypt($value, $this->getAescryptKey());
     }
 
     /**

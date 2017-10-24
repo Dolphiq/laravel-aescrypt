@@ -15,6 +15,7 @@ class AescryptServiceProvider extends ServiceProvider
      *
      * @return void
      */
+
     public function boot()
     {
         $this->publishes([
