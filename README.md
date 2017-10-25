@@ -2,9 +2,22 @@
 
 ## READ THIS FIRST
 
+This package uses the Openssl AES ECB encrypth method with a key length of 128bit.
+The result is default compatible with the AES_ENCRYPT functions and can be reproduces by running the query:
+```
+set @salt = SUBSTRING(SHA2('My secret pass phrase',256), 1, 16);
+SELECT @salt as salt, TO_BASE64(AES_ENCRYPT('text to encrypt', @salt));
+
+```
+
+The package uses a blank IV (just like Mysql) as default. The result hash is the same with the same input text under this conditions.
+This is less save than using a random IV but give one big advantage: You can search the database rather fast for matching text (e.g. email address) without decrypting all records.
+
+Note:
 Encrypted values are usually longer than plain text values.  Sometimes much longer.  You
 may find that the column widths in your database tables need to be extended to store the
 encrypted values.
+
 
 If you are encrypting long strings such as JSON blobs then the encrypted values may be
 longer than a VARCHAR field can support, and you may need to extend your column types to

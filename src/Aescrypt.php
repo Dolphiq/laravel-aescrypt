@@ -19,7 +19,7 @@ trait Aescrypt
     // Methods below here are native to the trait.
     //
 
-
+    protected $aesKey = null;
 
     public function aes_encrypt($val, $key)
     {
@@ -33,8 +33,11 @@ trait Aescrypt
 
     protected function getAescryptKey()
     {
-        if(!Config::has('aescrypt.aeskey')) throw new \Exception('The .env value AESCRYPT_AESKEY has to be set!!');
-        return substr(hash('sha256', Config::get('aescrypt.aeskey')), 0, 16);
+        if ($this->aesKey === null) {
+            if(!Config::has('aescrypt.aeskey')) throw new \Exception('The .env value AESCRYPT_AESKEY has to be set!!');
+            $this->aesKey = substr(hash('sha256', Config::get('aescrypt.aeskey')), 0, 16);
+        }
+        return $this->aesKey;
     }
 
     /**
