@@ -23,12 +23,20 @@ trait Aescrypt
 
     public function aes_encrypt($val, $key)
     {
-        return openssl_encrypt($val, 'aes-128-ecb', $key);
+        $options = OPENSSL_RAW_DATA;
+        if(Config::has('aescrypt.base64_output') && Config::get('aescrypt.base64_output')== true) {
+            $options = 0;
+        }
+        return openssl_encrypt($val, 'aes-128-ecb', $key, $options, $iv = '');
     }
 
     public function aes_decrypt($val, $key)
     {
-        return openssl_decrypt($val, 'aes-128-ecb', $key);
+        $options = OPENSSL_RAW_DATA;
+        if(Config::has('aescrypt.base64_output') && Config::get('aescrypt.base64_output')== true) {
+            $options = 0;
+        }
+        return openssl_decrypt($val, 'aes-128-ecb', $key, $options, $iv = '');
      }
 
     protected function getAescryptKey()

@@ -11,17 +11,16 @@ SELECT @salt as salt, TO_BASE64(AES_ENCRYPT('text to encrypt', @salt));
 ```
 
 The package uses a blank IV (just like Mysql) as default. The result hash is the same with the same input text under this conditions.
-This is less save than using a random IV but give one big advantage: You can search the database rather fast for matching text (e.g. email address) without decrypting all records.
+This is less save than using a random IV and NOT recommended for use with higly secure data but give one big advantage: You can search the database rather fast for matching text (e.g. email address) without decrypting all records.
+
 
 Note:
 Encrypted values are usually longer than plain text values.  Sometimes much longer.  You
 may find that the column widths in your database tables need to be extended to store the
-encrypted values.
+encrypted values. The package stores the data as Raw hash by default this can be switched to AESCRYPT_BASE64_OUTPUT = true in the .env file
 
-
-If you are encrypting long strings such as JSON blobs then the encrypted values may be
-longer than a VARCHAR field can support, and you may need to extend your column types to
-TEXT or LONGTEXT.
+If you are using the default encrypthion method, you should change your database columns to VARBINARY (length of 300 will be safe for former 256 varchar),
+If you turn on AES_BASE64_OUTPUT, you can use VARCHAR (length: (original text + prefix length + 16) * 1.3 or TEXT or LONGTEXT.
 
 ## What Does This Do?
 
