@@ -6,6 +6,14 @@ This package uses the Openssl AES ECB encrypth method with a key length of 128bi
 The result is default compatible with the AES_ENCRYPT functions and can be reproduces by running the query:
 ```
 set @salt = SUBSTRING(SHA2('My secret pass phrase',256), 1, 16);
+SELECT @salt as salt, AES_ENCRYPT('text to encrypt', @salt);
+
+```
+
+With the AESCRYPT_BASE64_OUTPUT setting on true, the query will be:
+
+```
+set @salt = SUBSTRING(SHA2('My secret pass phrase',256), 1, 16);
 SELECT @salt as salt, TO_BASE64(AES_ENCRYPT('text to encrypt', @salt));
 
 ```
@@ -42,10 +50,6 @@ not but will be automatically encrypted when it is saved back into those columns
 * PHP > 7
 * PHP [openssl extension](http://php.net/manual/en/book.openssl.php).
 * A working OpenSSL implementation on your OS.  OpenSSL comes pre-built with most Linux distributions and other forms of Unix such as *BSD.  There may or may not be a working OpenSSL implementation on a Windows system depending on how your LA?P stack was built.  I cannot offer support for installing or using ElocryptFive on systems that do not have an OpenSSL library.
-
-## Contributors
-
-This is based on the original Darren Taylor's Laravel 4 "elocrypt" package With changes from Delatbabel
 
 ## Installation
 
@@ -103,4 +107,12 @@ For example:
         ];
     }
 ```
+
+## Contributors
+
+This is based on the original Darren Taylor's Laravel 4 "elocrypt" package With changes from Delatbabel.
+
+Developers in our team:
+Johan Zandstra - info@dolphiq.nl
+Brought to you by [Dolphiq](https://dolphiq.nl)
 
