@@ -59,7 +59,7 @@ This package can be installed via Composer by running following command:
     composer require dolphiq/laravel-aescrypt
 ```
 
-Once `composer` has finished, then add the service provider to the `providers` array in your
+Once `composer` has finished, then add the service provider in Laravel to the `providers` array in your
 application's `config/app.php` file:
 
 ```php
@@ -69,6 +69,11 @@ application's `config/app.php` file:
     ],
 ```
 
+In Lumen, you can add it to `bootstrap/app.php` file:
+```php
+// Aescrypt provider
+$app->register(\Dolphiq\Aescrypt\AescryptServiceProvider::class);
+```
 
 ## Configuration
 
