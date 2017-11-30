@@ -20,12 +20,16 @@
         "paragonie/random_compat": "^1.1|^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0"
+        "phpunit/phpunit": "~6.0",
+        "orchestra/testbench": "~3.5"
     },
     "autoload": {
         "psr-4": {
             "Dolphiq\\Aescrypt\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "classmap": ["tests/"]
     },
     "minimum-stability": "stable"
 }
