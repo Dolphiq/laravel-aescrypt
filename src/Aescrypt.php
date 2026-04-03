@@ -71,6 +71,17 @@ trait Aescrypt
 
         return in_array($key, $encrypt);
     }
+    
+    /**
+     * Determine whether a model is ready for encryption.
+     *
+     * @return bool
+     */
+    protected function isEncryptable(): bool
+    {
+        $exists = property_exists($this, 'exists');
+        return $exists === false || ($exists === true && $this->exists === true);
+    }
 
     /**
      * Determine whether a string has already been encrypted.
@@ -181,6 +192,19 @@ trait Aescrypt
 
         return $attributes;
     }
+    
+    /**
+     * Decrypt encrypted data before it is processed by cast attribute.
+     *
+     * @param $key
+     * @param $value
+     *
+     * @return mixed
+     */
+    protected function castAttribute($key, $value)
+    {
+        return parent::castAttribute($key, $this->doDecryptAttribute($key, $value));
+    }
 
     //
     // Methods below here override methods within the base Laravel/Illuminate/Eloquent
@@ -246,6 +270,6 @@ trait Aescrypt
      */
     public function getAttributes()
     {
-        return $this->doDecryptAttributes(parent::getAttributes());
+        return $this->isEncryptable() ? $this->doDecryptAttributes(parent::getAttributes()) : parent::getAttributes();
     }
 }
